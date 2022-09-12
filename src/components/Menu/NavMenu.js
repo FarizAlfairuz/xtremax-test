@@ -1,10 +1,11 @@
+import React, { useCallback } from "react";
 import { Disclosure } from "@headlessui/react";
-import React from "react";
+import { useSelectedContext } from "../../context/SelectedContext";
 
 const navMenus = [
   { label: "Merlion" },
   {
-    label: "Mariana Bay Sands",
+    label: "Marina Bay Sands",
     children: [
       "ArtScience Museum",
       "Mariana Bay Sands Skypark",
@@ -12,7 +13,7 @@ const navMenus = [
     ],
   },
   {
-    label: "Garden by the Bay",
+    label: "Gardens By The Bay",
     children: [
       "ArtScience Museum",
       "Mariana Bay Sands Skypark",
@@ -31,15 +32,30 @@ const navMenus = [
   { label: "Clarke Quay" },
   { label: "Fort Canning Park" },
   { label: "Singapore Flyer" },
-  { label: "Orchad Road" },
+  { label: "Orchard Road" },
 ];
+
 const NavMenu = () => {
+  const { setSelectedMenu, selectedMenu } = useSelectedContext();
+
+  const onClick = useCallback(
+    (label) => {
+      setSelectedMenu(label);
+    },
+    [setSelectedMenu]
+  );
+
   return (
     <dl className="mt-[45px]">
       {navMenus.map((menu) =>
         menu.children ? (
           <Disclosure key={menu.label}>
-            <Disclosure.Button className="text-left w-full flex justify-between items-center px-3 py-2 border-t last:border-y border-[#242832] text-white font-medium hover:text-[#92D72E] hover:bg-[#1C1F27] cursor-pointer">
+            <Disclosure.Button
+              onClick={() => onClick(menu.label)}
+              className={`${
+                selectedMenu === menu.label ? "bg-[#1C1F27] text-[#92D72E]" : ""
+              } text-left w-full flex justify-between items-center px-3 py-2 border-t last:border-y border-[#242832] text-white font-medium hover:text-[#92D72E] hover:bg-[#1C1F27] cursor-pointer`}
+            >
               <h6 className="text-base">{menu.label}</h6>
               <span className="text-xs">▼</span>
             </Disclosure.Button>
@@ -57,7 +73,10 @@ const NavMenu = () => {
         ) : (
           <dt
             key={menu.label}
-            className="px-3 py-2 border-t last:border-y border-[#242832] text-white font-medium hover:text-[#92D72E] hover:bg-[#1C1F27] cursor-pointer"
+            onClick={() => onClick(menu.label)}
+            className={`${
+              selectedMenu === menu.label ? "bg-[#1C1F27] text-[#92D72E]" : ""
+            } px-3 py-2 border-t last:border-y border-[#242832] text-white font-medium hover:text-[#92D72E] hover:bg-[#1C1F27] cursor-pointer`}
           >
             {menu.label}
           </dt>
