@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import GoogleMap from "google-map-react";
 import CustomMarker from "./CustomMarker";
 import { useSelectedContext } from "../../context/SelectedContext";
